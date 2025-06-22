@@ -6,21 +6,33 @@ game_on = True
 
 def main():
     pygame.init() # initialize pygame
-    screen = pygame.display.set_mode(size=(SCREEN_WIDTH,SCREEN_HEIGHT)) # create surface
-    
-    player_1 = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2) # setting the location for player1
+    screen = pygame.display.set_mode(size=(SCREEN_WIDTH,SCREEN_HEIGHT)) # create 
     clock = pygame.time.Clock()
+    
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable,drawable)
+
+
+    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2) # setting the location for player
+
+    
     dt = 0
 
     while game_on == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-
-        player_1.update(dt)
+        
+        updatable.update(dt)
 
         screen.fill(color="black")
-        player_1.draw(screen)
+
+        for sprite in drawable:
+            sprite.draw(screen)
+
+        
+        
         pygame.display.flip() 
         dt = clock.tick(60)/1000
 
